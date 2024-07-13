@@ -32,13 +32,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _DEFER_H_
 #define _DEFER_H_
 
-/* _DEFER_CAT: concatenate identifiers */
+/* _DEFER_CAT(a, b): Concatenate identifier b to the end of identifier a. */
 #undef _DEFER_CAT
 #undef __DEFER_CAT
 #define __DEFER_CAT(a, b) a ## b
 #define _DEFER_CAT(a, b) __DEFER_CAT(a, b)
 
-/* DEFER_START(N): Call to create a defer scope with N possible defers */
+/* DEFER_START(N): Call to create a defer scope with N possible defers. */
 #undef DEFER_START
 #define DEFER_START(N)
 
