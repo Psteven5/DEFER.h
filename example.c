@@ -1,16 +1,16 @@
 #include <stdio.h>
 
-#include “DEFER.h”
+#include "DEFER.h"
 
 int foo(void) {
   
   /* Indicate that we’re going to use 2 defers. */
   DEFER_START(2);
   
-  DEFER(printf(“ world!\n”));
-  DEFER(printf(“Hello,”));
+  DEFER(printf(" world!\n"));
+  DEFER(printf("Hello,"));
 
-  printf(“My message: “);
+  printf("My message: ");
   
   /* The defers execute in reversed order, and only at DEFER_END. */
   /* => My message: Hello, world! */
@@ -22,7 +22,7 @@ int foo(void) {
 int bar(void) {
   DEFER_START(3);
   
-  FILE *f = fopen(“example.txt”, “r”);
+  FILE *f = fopen("example.txt", "r");
   if (NULL == f) {
     DEFER_END();
     return -1;
@@ -32,7 +32,7 @@ int bar(void) {
   DEFER(fclose(f));
 
   int size;
-  if (1 != fscanf(f, “%i”, &size)) {
+  if (1 != fscanf(f, "%i", &size)) {
     DEFER_END();
     return -2;
   }
@@ -46,16 +46,16 @@ int bar(void) {
 
   for (int i = 0; i < size; ++i) {
     int num;
-    if (1 != fscanf(f, “%i”, &num)) {
+    if (1 != fscanf(f, "%i", &num)) {
       DEFER_END();
       return -4;
     }
     nums[i] = num;
   }
 
-  DEFER(fputc(‘\n’, stdout));
+  DEFER(fputc('\n', stdout));
   for (int i = 0; i < size; ++i) {
-    printf(“%i “, nums[i]);
+    printf("%i ", nums[i]);
   }
   
   DEFER_END();
