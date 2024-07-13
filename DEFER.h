@@ -54,7 +54,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #undef DEFER
 #define DEFER(...)
 
-/* If GCC is used, then use "labels as values" for the implementation. */
+/* If GNU C supporting compilers are used (GCC, Clang), then use "labels as values" for the implementation. */
 #ifdef __GNUC__
   #undef DEFER_START
   #define DEFER_START(N) \
@@ -78,7 +78,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     } \
   } while (0)
 
-/* If not GCC (Clang, MSVC, etc.), use setjmp.h */
+/* If not GCC (MSVC, TCC, etc.), use setjmp.h */
 #elif
   #include <setjmp.h>
 
