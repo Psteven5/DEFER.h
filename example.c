@@ -20,7 +20,7 @@ int foo(void) {
 }
 
 int bar(void) {
-  DEFER_START(2);
+  DEFER_START(3);
   
   FILE *f = fopen(“example.txt”, “r”);
   if (NULL == f) {
