@@ -7,29 +7,29 @@ DEFER.h defines 3 macros to use:
  * DEFER(...): Defers the code inside the brackets to DEFER_END.
 
 ```c
-[...]
-DEFER_START(2);
-
-int x = 1;
-if (x) {
+int main() {
   DEFER_START(2);
 
-  DEFER(fputc('\n', stdout));
-  DEFER(printf("%i", x));
-  ++x;
+  int x = 68;
+  if (x) {
+    DEFER_START(2);
+
+    DEFER(fputc('\n', stdout));
+    DEFER(printf("%i", x));
+    ++x;
+
+    DEFER_END();
+  }
+
+  DEFER(printf("world!\n"));
+  DEFER(printf("Hello, "));
 
   DEFER_END();
 }
-
-DEFER(printf("world!\n"));
-DEFER(printf("Hello, "));
-
-DEFER_END();
-[...]
 ```
 
 ```
-2
+69
 Hello, world!
 ```
 
