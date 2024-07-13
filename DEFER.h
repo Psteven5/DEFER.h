@@ -78,7 +78,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     } \
   } while (0)
 
-/* If not GCC (MSVC, TCC, etc.), use setjmp.h */
+/* If no GNU C (MSVC, TCC, etc.), use setjmp.h */
 #elif
   #include <setjmp.h>
 
