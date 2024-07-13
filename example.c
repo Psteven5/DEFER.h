@@ -63,7 +63,52 @@ int bar(void) {
   return 0;
 }
 
+int foobar(void) {
+  DEFER_START(2);
+
+  /* Nested defer scopes can be created within C scopes. */
+  /* DEFER calls and DEFER_END within this scope will refer to this defer scope. */
+  int x = 1;
+  if (x) {
+    DEFER_START(2);
+
+    DEFER(fputc('\n', stdout));
+    DEFER(printf("%i", x));
+
+    DEFER_END();
+  }
+
+  DEFER(printf("world!\n"));
+  DEFER(printf("Hello, "));
+
+  /* => 1 */
+  /*    Hello, world! */
+  DEFER_END();
+  return 0;
+}
+
+int barfoo(void) {
+  DEFER_START(4);
+
+  /* ...But defer can also be kept on a function basis, like Go. */
+  int x = 1;
+  if (x) {
+    DEFER(fputc('\n', stdout));
+    DEFER(printf("%i", x));
+  }
+
+  DEFER(printf("world!\n"));
+  DEFER(printf("Hello, "));
+
+  /* => Hello, world! */
+  /*    1 */
+  DEFER_END();
+  return 0;
+}
+
 int main(void) {
   foo();
   bar();
+  foobar();
+  barfoo();
 }
