@@ -4,7 +4,7 @@
 
 int foo(void) {
   
-  /* Indicate that we’re going to use 2 defers */
+  /* Indicate that we’re going to use 2 defers. */
   DEFER_START(2);
   
   DEFER(printf(“ world!\n”));
