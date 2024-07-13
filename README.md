@@ -7,7 +7,7 @@ DEFER.h defines 3 macros to use:
  * DEFER(...): Defers the code inside the brackets to DEFER_END.
 
 ```c
-...
+[...]
 DEFER_START(2);
 
 int x = 1;
@@ -25,7 +25,7 @@ DEFER(printf("world!\n"));
 DEFER(printf("Hello, "));
 
 DEFER_END();
-...
+[...]
 ```
 
 ```
