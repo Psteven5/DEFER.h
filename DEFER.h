@@ -80,7 +80,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   } while (0)
 
 /* If no GNU C (MSVC, TCC, etc.), use setjmp.h */
-#elif
+#else
   #include <setjmp.h>
 
   #undef DEFER_START
