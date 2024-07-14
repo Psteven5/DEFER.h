@@ -89,16 +89,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   #undef DEFER_END
   #define DEFER_END() do { \
-    int _DEFER_CAT(_DEFER_END_, __LINE__) = setjmp(_DEFER_ENV[0]); \
-    if (!_DEFER_CAT(_DEFER_END_, __LINE__)) { \
+    if (!setjmp(_DEFER_ENV[0])) { \
       longjmp(_DEFER_ENV[_DEFER_I--], 1); \
     } \
   } while (0)
 
   #undef DEFER
   #define DEFER(...) do { \
-    int _DEFER_CAT(_DEFER_CODE_, __LINE__) = setjmp(_DEFER_ENV[++_DEFER_I]); \
-    if (_DEFER_CAT(_DEFER_CODE_, __LINE__)) { \
+    if (setjmp(_DEFER_ENV[++_DEFER_I])) { \
       __VA_ARGS__; \
       longjmp(_DEFER_ENV[_DEFER_I--], 1); \
     } \
