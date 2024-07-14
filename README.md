@@ -21,7 +21,7 @@ int main() {
     DEFER_END();
   }
 
-  DEFER(printf("world!\n"));
+  DEFER(printf("world!"); fputc('\n', stdout));
   DEFER(printf("Hello, "));
 
   DEFER_END();
