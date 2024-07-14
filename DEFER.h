@@ -29,14 +29,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef _DEFER_H_
-#define _DEFER_H_
-
-/* _DEFER_CAT(a, b): Concatenate identifier b to the end of identifier a. */
-#undef _DEFER_CAT
-#undef __DEFER_CAT
-#define __DEFER_CAT(a, b) a ## b
-#define _DEFER_CAT(a, b) __DEFER_CAT(a, b)
+#ifndef DEFER_H_d41d8cd98f00b204e9800998ecf8427e
+#define DEFER_H_d41d8cd98f00b204e9800998ecf8427e
 
 /* DEFER_START(N): Call to create a defer scope with N possible defers. */
 #undef DEFER_START
@@ -56,25 +50,32 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /* If GNU C supporting compilers are used (GCC, Clang), then use "labels as values" for the implementation. */
 #ifdef __GNUC__
+  
+  /* _DEFER_CAT(a, b): Concatenate identifier b to the end of identifier a. */
+  #undef DEFER_CAT_d41d8cd98f00b204e9800998ecf8427e
+  #undef DEFER_CAT__d41d8cd98f00b204e9800998ecf8427e
+  #define DEFER_CAT__d41d8cd98f00b204e9800998ecf8427e(a, b) a ## _d41d8cd98f00b204e9800998ecf8427e_ ## b
+  #define DEFER_CAT_d41d8cd98f00b204e9800998ecf8427e(a, b) DEFER_CAT(a, b)
+
   #undef DEFER_START
   #define DEFER_START(N) \
-    void *_DEFER_ENV[N + 1]; \
-    int _DEFER_I = 0
+    void *DEFER_ENV_d41d8cd98f00b204e9800998ecf8427e[N + 1]; \
+    int DEFER_I_d41d8cd98f00b204e9800998ecf8427e = 0
   
   #undef DEFER_END
   #define DEFER_END() do { \
-    _DEFER_ENV[0] = &&_DEFER_CAT(_DEFER_END_, __LINE__); \
-    goto *_DEFER_ENV[_DEFER_I--]; \
-    _DEFER_CAT(_DEFER_END_, __LINE__): \
+    DEFER_ENV_d41d8cd98f00b204e9800998ecf8427e[0] = &&DEFER_CAT_d41d8cd98f00b204e9800998ecf8427e(DEFER_END, __LINE__); \
+    goto *DEFER_ENV_d41d8cd98f00b204e9800998ecf8427e[DEFER_I_d41d8cd98f00b204e9800998ecf8427e--]; \
+    DEFER_CAT_d41d8cd98f00b204e9800998ecf8427e(DEFER_END, __LINE__): \
   } while (0)
   
   #undef DEFER
   #define DEFER(...) do { \
-    _DEFER_ENV[++_DEFER_I] = &&_DEFER_CAT(_DEFER_, __LINE__); \
+    DEFER_ENV_d41d8cd98f00b204e9800998ecf8427e[++DEFER_I_d41d8cd98f00b204e9800998ecf8427e] = &&DEFER_CAT_d41d8cd98f00b204e9800998ecf8427e(DEFER, __LINE__); \
     if (0) { \
-    _DEFER_CAT(_DEFER_, __LINE__): \
+    DEFER_CAT_d41d8cd98f00b204e9800998ecf8427e(DEFER, __LINE__): \
       __VA_ARGS__; \
-      goto *_DEFER_ENV[_DEFER_I--]; \
+      goto *DEFER_ENV_d41d8cd98f00b204e9800998ecf8427e[DEFER_I_d41d8cd98f00b204e9800998ecf8427e--]; \
     } \
   } while (0)
 
@@ -84,21 +85,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   #undef DEFER_START
   #define DEFER_START(N) \
-    jmp_buf _DEFER_ENV[N + 1]; \
-    int _DEFER_I = 0
+    jmp_buf DEFER_ENV_d41d8cd98f00b204e9800998ecf8427e[N + 1]; \
+    int DEFER_I_d41d8cd98f00b204e9800998ecf8427e = 0
 
   #undef DEFER_END
   #define DEFER_END() do { \
-    if (!setjmp(_DEFER_ENV[0])) { \
-      longjmp(_DEFER_ENV[_DEFER_I--], 1); \
+    if (!setjmp(DEFER_ENV_d41d8cd98f00b204e9800998ecf8427e[0])) { \
+      longjmp(DEFER_ENV_d41d8cd98f00b204e9800998ecf8427e[DEFER_I_d41d8cd98f00b204e9800998ecf8427e--], 1); \
     } \
   } while (0)
 
   #undef DEFER
   #define DEFER(...) do { \
-    if (setjmp(_DEFER_ENV[++_DEFER_I])) { \
+    if (setjmp(DEFER_ENV_d41d8cd98f00b204e9800998ecf8427e[++DEFER_I_d41d8cd98f00b204e9800998ecf8427e])) { \
       __VA_ARGS__; \
-      longjmp(_DEFER_ENV[_DEFER_I--], 1); \
+      longjmp(DEFER_ENV_d41d8cd98f00b204e9800998ecf8427e[DEFER_I_d41d8cd98f00b204e9800998ecf8427e--], 1); \
     } \
   } while (0)
 #endif
